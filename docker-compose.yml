@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: checkautos-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
+    networks:
+      - checkautos-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: checkautos-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - checkautos-net
+
+networks:
+  checkautos-net:
+    driver: bridge
